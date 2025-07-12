@@ -18,8 +18,7 @@ function App() {
           <p>Total Cookies Found: 00</p>
         </div>
       </div>
-        
-      <div id="buttons">
+      <div id="buttons">ssssss
         <button>view cookies</button>
         <button>clear cookies</button>
       </div>

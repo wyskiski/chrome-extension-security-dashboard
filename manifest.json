@@ -1,11 +1,12 @@
 {
-  "name": "Hello Extensions of the world!",
-  "description": "Base Level Extension",
+  "name": "Cookie Checker Chrome Extension",
+  "description": "View and edit cookies.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "./dist/js/index.html",
-    "default_title": "Secure Chrome Extension",
+    "default_title": "Cookie Checker Chrome Extension",
     "default_icon": "cat icon.png"
-  }
+  },
+  "permissions": ["cookies","<all_urls>","tabs"]
 }
