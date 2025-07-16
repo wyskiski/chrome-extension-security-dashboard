@@ -5,18 +5,19 @@ import { getActiveTab } from "./components/getActiveTab";
 import { addTabListeners } from "./components/addTabListeners";
 import { getMaliciousCookies } from "./components/getMaliciousCookies";
 import { addCookieListeners } from "./components/addCookieListener";
+import { getCrxFile } from "./components/getCrxFile";
+import { readManifestFile } from "./components/readManifestFile";
 
 function App() {
   const [url, setUrl] = useState("");
   const [extensionId, setExtensionId] = useState("");
+  const [manipulatesCookies, setManipulatesCookies] = useState(false)
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const extensionId = getExtensionId();
-
-    const crxFile = getCrx();
-    console.log(crxFile);
+    getExtensionId();
   };
 
   const getExtensionId = () => {
@@ -26,44 +27,29 @@ function App() {
     return splits[splits.length - 1];
   };
 
-  useEffect(async () => {
-    const response = await fetch(
-      `https://chrome-extension-parser.vercel.app/api/download-crx?id=${extensionId}`
-    );
+  useEffect(() => {
+    if (!extensionId) return;
 
-    const crxFile = await response.blob();
 
-    console.log(crxFile);
+    // console.log("extension id" + extensionId)
 
-    const arrayBuffer = await crxFile.arrayBuffer();
+    async function getFile () {
+      const crxFile = await getCrxFile(extensionId);
 
-    const view = new DataView(arrayBuffer);
+      const cookieManipulation = await readManifestFile(crxFile);
+      setManipulatesCookies(cookieManipulation);
+    }
 
-    const magic = String.fromCharCode(
-      view.getUint8(0),
-      view.getUint8(1),
-      view.getUint8(2),
-      view.getUint8(3)
-    );
-
-    console.log("magic: " + magic);
+    getFile();
   }, [extensionId]);
 
-  async function getCrx() {
-    // const crxUrl = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&acceptformat=crx3&x=id%3D${extensionId}%26installsource%3Dondemand%26uc`;
-    // console.log("crx url: " + crxUrl);
-    // const response = await fetch(crxUrl);
-    // const crxFile = await response.blob();
-    // return crxFile;
-  }
-
   return (
-    <>
-      <nav className="border-b-1 border-gray-200 p-3 mb-10">
-        <p>comp6841 project</p>
-      </nav>
-
-      <div className="flex justify-center items-center w-full mb-10">
+    <div className="App">
+      <div id="header">
+        <p>Chrome Extension Checker</p>
+        <img id="reloadIcon" src="/public/assets/reload.png" alt="reload" />
+      </div>
+      <div id="cookieInformation">
         <form
           onSubmit={handleSubmit}
           className="flex w-full justify-center items-center gap-4 rounded">
@@ -81,12 +67,18 @@ function App() {
           />
         </form>
       </div>
+      <div id="extension-info">
+        <p>extension name:</p>
+        <p>exposed api keys: n/a</p>
+        {manipulatesCookies ? <p>manipulates cookies: yes </p> : <p>manipulates cookies: no</p>}
+        
+        <p>safe? yes/no</p>
+      </div>
 
-      <p>extension name:</p>
-      <p>exposed api keys: n/a</p>
-      <p>manipulates cookies: yes/no</p>
-      <p>safe? yes/no</p>
-    </>
+      <div id="footer">
+        <p>Built by Winona Wrigley. 2025.</p>
+      </div>
+    </div>
   );
 }
 

@@ -40,13 +40,13 @@
   font-size: 2rem;
 }
 
-#buttons {
+#extension-info {
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
   padding-bottom: 40px;
-  background-color: #1d1d1d;
+  color: white;
 }
 
 button {
