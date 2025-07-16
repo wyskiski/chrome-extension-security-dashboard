@@ -8,5 +8,6 @@
     "default_title": "Cookie Checker Chrome Extension",
     "default_icon": "cat icon.png"
   },
-  "permissions": ["cookies","<all_urls>","tabs"]
+  "permissions": ["cookies","tabs","activeTab","scripting"],
+  "host_permissions": ["<all_urls>"]
 }
