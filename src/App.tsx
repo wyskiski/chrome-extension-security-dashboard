@@ -7,11 +7,13 @@ import { getMaliciousCookies } from "./components/getMaliciousCookies";
 import { addCookieListeners } from "./components/addCookieListener";
 import { getCrxFile } from "./components/getCrxFile";
 import { readManifestFile } from "./components/readManifestFile";
+import { getExtensionTitle } from "./components/getExtensionTitle";
 
 function App() {
   const [url, setUrl] = useState("");
   const [extensionId, setExtensionId] = useState("");
   const [manipulatesCookies, setManipulatesCookies] = useState(false)
+  const [extensionName, setExtensionName] = useState("")
   
 
   const handleSubmit = (e: any) => {
@@ -30,14 +32,14 @@ function App() {
   useEffect(() => {
     if (!extensionId) return;
 
-
-    // console.log("extension id" + extensionId)
-
     async function getFile () {
       const crxFile = await getCrxFile(extensionId);
 
       const cookieManipulation = await readManifestFile(crxFile);
       setManipulatesCookies(cookieManipulation);
+
+      const name = await getExtensionTitle(crxFile)
+      setExtensionName(name);
     }
 
     getFile();
@@ -68,7 +70,7 @@ function App() {
         </form>
       </div>
       <div id="extension-info">
-        <p>extension name:</p>
+        <p>extension name: {extensionName}</p>
         <p>exposed api keys: n/a</p>
         {manipulatesCookies ? <p>manipulates cookies: yes </p> : <p>manipulates cookies: no</p>}
         
