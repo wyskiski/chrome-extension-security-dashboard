@@ -9,7 +9,7 @@
     "default_icon": "cat icon.png"
   },
   "permissions": ["cookies","tabs","activeTab",
-  "scripting","downloads","contextMenus"],
+  "scripting","downloads","contextMenus", "management"],
   "host_permissions": ["<all_urls>", 
   "*://clients2.google.com/service/update2/crx*",
   "*://clients2.googleusercontent.com/crx/download/*"]

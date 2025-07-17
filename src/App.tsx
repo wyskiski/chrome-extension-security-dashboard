@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { getCookies } from "./components/getCookies";
-import { getActiveTab } from "./components/getActiveTab";
-import { addTabListeners } from "./components/addTabListeners";
-import { getMaliciousCookies } from "./components/getMaliciousCookies";
-import { addCookieListeners } from "./components/addCookieListener";
-import { getCrxFile } from "./components/getCrxFile";
-import { readManifestFile } from "./components/readManifestFile";
-import { getExtensionTitle } from "./components/getExtensionTitle";
+import { getCookies } from "./helpers/getCookies";
+import { getActiveTab } from "./helpers/getActiveTab";
+import { addTabListeners } from "./helpers/addTabListeners";
+import { getMaliciousCookies } from "./helpers/getMaliciousCookies";
+import { addCookieListeners } from "./helpers/addCookieListener";
+import { getCrxFile } from "./helpers/getCrxFile";
+import { readManifestFile } from "./helpers/readManifestFile";
+import { getExtensionTitle } from "./helpers/getExtensionTitle";
+import { searchForApiKeys } from "./helpers/searchForApiKeys";
+import { getAllExtensions } from "./helpers/getAllExtensions";
 
 function App() {
   const [url, setUrl] = useState("");
@@ -40,10 +42,17 @@ function App() {
 
       const name = await getExtensionTitle(crxFile)
       setExtensionName(name);
+
+      searchForApiKeys(crxFile);
     }
 
     getFile();
   }, [extensionId]);
+
+  useEffect(() => {
+    const extensions = getAllExtensions();
+    console.log(extensions)
+  }, [])
 
   return (
     <div className="App">
@@ -74,7 +83,7 @@ function App() {
         <p>exposed api keys: n/a</p>
         {manipulatesCookies ? <p>manipulates cookies: yes </p> : <p>manipulates cookies: no</p>}
         
-        <p>safe? yes/no</p>
+        {manipulatesCookies ? <p>safe? no</p> : <p>safe? yes</p>}
       </div>
 
       <div id="footer">

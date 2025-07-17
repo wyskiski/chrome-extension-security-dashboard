@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { getCookies } from './components/getCookies';
-import { getActiveTab } from './components/getActiveTab';
-import { addTabListeners } from './components/addTabListeners';
-import { getMaliciousCookies } from './components/getMaliciousCookies';
-import { addCookieListeners } from './components/addCookieListener';
+import { getCookies } from './helpers/getCookies';
+import { getActiveTab } from './helpers/getActiveTab';
+import { addTabListeners } from './helpers/addTabListeners';
+import { getMaliciousCookies } from './helpers/getMaliciousCookies';
+import { addCookieListeners } from './helpers/addCookieListener';
 
 function App() {
 
