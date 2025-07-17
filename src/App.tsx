@@ -63,7 +63,7 @@ function App() {
       <div id="cookieInformation">
         <form
           onSubmit={handleSubmit}
-          className="flex w-full justify-center items-center gap-4 rounded">
+          className="flex w-full justify-center items-center gap-10 rounded">
           <input
             type="text"
             placeholder="enter chrome extension url"
