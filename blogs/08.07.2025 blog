@@ -1,9 +1,0 @@
-resource: https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world
-
-Followed the developer site today to create a chrome 
-extension.
-
-resource: https://medium.com/@tharshita13/creating-a-chrome-extension-with-react-a-step-by-step-guide-47fe9bab24a1
-
-Setup react to use as the extension popup.
-
