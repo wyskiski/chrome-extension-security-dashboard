@@ -1,0 +1,16 @@
+{
+  "name": "Cookie Checker Chrome Extension",
+  "description": "View and edit cookies.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "./dist/js/index.html",
+    "default_title": "Cookie Checker Chrome Extension",
+    "default_icon": "cat icon.png"
+  },
+  "permissions": ["cookies","tabs","activeTab",
+  "scripting","downloads","contextMenus", "management"],
+  "host_permissions": ["<all_urls>", 
+  "*://clients2.google.com/service/update2/crx*",
+  "*://clients2.googleusercontent.com/crx/download/*"]
+}
