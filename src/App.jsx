@@ -113,10 +113,10 @@ function App() {
               console.log(iconUrl);
             }
 
-            console.log(extension.icons);
             return (
               <ExtensionCard
                 key={extension.id}
+                extension={extension}
                 name={extension.name}
                 image={iconUrl}
                 url={extension.homepageUrl}
