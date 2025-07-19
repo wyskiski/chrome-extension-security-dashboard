@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { searchForApiKeys } from '../helpers/searchForApiKeys';
+import { getCrxFile } from '../helpers/getCrxFile';
 
 function ExtensionCard ({
   name = "",
@@ -10,6 +12,7 @@ function ExtensionCard ({
   const [hasCookieAccess, setHasCookieAccess] = useState(false);
   const [hasDownloadAccess, setHasDownloadAccess] = useState(false);
   const [hasApiKeys, setHasApiKeys] = useState(false);
+  const [showDetails, setShowDetails] = useState(false)
 
 
   const openHomepage = () => {
@@ -20,13 +23,27 @@ function ExtensionCard ({
     if (extension.permissions) {
       const permissions = extension.permissions
 
-       setHasCookieAccess(permissions.includes("cookies"));
+      setHasCookieAccess(permissions.includes("cookies"));
       setHasDownloadAccess(permissions.includes("downloads"));
-      
-
     }
+
+    async function checkApiKeys() {
+
+      if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
+  
+        const crxFile = getCrxFile(extension.id)
+  
+        const api = await searchForApiKeys(crxFile);
+        setHasApiKeys(api);
+      }
+    }
+
+    checkApiKeys();
   }, [extension])
 
+  const detailsButton = () => {
+    setShowDetails(!showDetails)
+  }
 
   return (
     <div className="bg-white text-black rounded border-1 border-gray-100 drop-shadow-l"> 
@@ -43,7 +60,12 @@ function ExtensionCard ({
           {enabled ? <button>Disable</button> : <button>Enable</button>}
         </div>
       </div>
-      <div id="body" className="flex flex-row p-10 justify-center items-center gap-10">
+      {
+        showDetails ?  <div id="body" className="flex flex-row p-10 justify-center items-center gap-10">
+       <button className="border-1 border-black p-2 rounded cursor-pointer" onClick={detailsButton}>Hide Details</button>
+      </div>
+      :
+        <div id="body" className="flex flex-row p-10 justify-center items-center gap-10">
         <div id="extension-score" className="flex flex-col justify-center items-center">
           <p className="text-2xl font-bold">Risk: Low</p>
           {enabled ? <p>Status: <span className="text-green-500">enabled</span></p> : <p>Status: <span className="text-red-500">disabled</span></p>}
@@ -52,12 +74,13 @@ function ExtensionCard ({
         <div id="extension-access">
           <p>Download Access: {hasDownloadAccess ? <p>true</p> : <p>false</p>}</p>
           <p>Cookie Access: {hasCookieAccess ? <p>true</p> : <p>false</p>}</p>
-          <p>Expose API keys:</p>
-          <button>View Details</button>
+          <p>Expose API keys: {hasApiKeys ? <p>true</p> : <p>false</p>}</p>
+          <button className="border-1 border-black p-2 rounded cursor-pointer" onClick={detailsButton}>View Details</button>
         </div>
-
-        
-      </div>
+      </div> 
+      
+      }
+      
     </div>
   );
 };
