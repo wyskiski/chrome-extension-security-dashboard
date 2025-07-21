@@ -14,6 +14,7 @@ function App() {
   const [extensionId, setExtensionId] = useState("");
   const [manipulatesCookies, setManipulatesCookies] = useState(false);
   const [extensionName, setExtensionName] = useState("");
+  const [showManualUpload, setShowManualUpload] = useState(false);
 
   const [browserExtensions, setBrowserExtensions] = useState([]);
 
@@ -54,6 +55,10 @@ function App() {
     console.log(extensions);
   }, []);
 
+  const switchPage = () => {
+    setShowManualUpload(!showManualUpload);
+  };
+
   return (
     <div className="flex flex-col">
       <div id="header" className="flex flex-row justify-between px-10 py-5">
@@ -72,59 +77,68 @@ function App() {
           src="/assets/reload.png"
           alt="reload"
           className="size-6 invert cursor-pointer"
+          onClick={switchPage}
         />
       </div>
-      <div className="flex flex-col gap-10 px-15">
-        <div id="cookieInformation">
-          <form
-            onSubmit={handleSubmit}
-            className="flex w-full justify-center items-center gap-10 rounded">
-            <input
-              type="text"
-              placeholder="enter chrome extension url"
-              onChange={(e) => setUrl(e.target.value)}
-              className="border-1 border-gray-200 p-2 w-4/5"
-            />
-            <input
-              type="submit"
-              value="Submit"
-              className="cursor-pointer p-2 border-1 border-black px-8
-            rounded-lg hover:bg-blue-500 hover:text-white"
-            />
-          </form>
-        </div>
-        <div id="extension-info">
-          <p>extension name: {extensionName}</p>
-          <p>exposed api keys: n/a</p>
-          {manipulatesCookies ? (
-            <p>manipulates cookies: yes </p>
-          ) : (
-            <p>manipulates cookies: no</p>
-          )}
 
-          {manipulatesCookies ? <p>safe? no</p> : <p>safe? yes</p>}
-        </div>
-        <div id="browser-extensions" className="flex flex-col gap-3">
-          {browserExtensions.map((extension) => {
-            let iconUrl = "";
-
-            if (extension.icons) {
-              iconUrl = extension.icons[0].url;
-            }
-
-            return (
-              <ExtensionCard
-                key={extension.id}
-                extension={extension}
-                name={extension.name}
-                image={iconUrl}
-                url={extension.homepageUrl}
-                enabled={extension.enabled}
+      {showManualUpload ? (
+        <div className="flex flex-col gap-10 px-15">
+          <div id="cookieInformation">
+            <form
+              onSubmit={handleSubmit}
+              className="flex w-full justify-center items-center gap-10 rounded">
+              <input
+                type="text"
+                placeholder="enter chrome extension url"
+                onChange={(e) => setUrl(e.target.value)}
+                className="border-1 border-gray-200 p-2 w-4/5"
               />
-            );
-          })}
+              <input
+                type="submit"
+                value="Submit"
+                className="cursor-pointer p-2 border-1 border-black px-8
+            rounded-lg hover:bg-blue-500 hover:text-white"
+              />
+            </form>
+          </div>
+          <div id="extension-info">
+            <p>extension name: {extensionName}</p>
+            <p>exposed api keys: n/a</p>
+            {manipulatesCookies ? (
+              <p>manipulates cookies: yes </p>
+            ) : (
+              <p>manipulates cookies: no</p>
+            )}
+
+            {manipulatesCookies ? <p>safe? no</p> : <p>safe? yes</p>}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-10 px-15">
+          <h1>Browser Extensions</h1>
+          <div id="browser-extensions" className="flex flex-col gap-3">
+            {browserExtensions.map((extension) => {
+              let iconUrl = "";
+
+              if (extension.icons) {
+                iconUrl = extension.icons[0].url;
+              }
+
+              return (
+                <ExtensionCard
+                  key={extension.id}
+                  extension={extension}
+                  name={extension.name}
+                  image={iconUrl}
+                  url={extension.homepageUrl}
+                  enabled={extension.enabled}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div
         id="footer"
         className="bg-[#353535] py-2 flex justify-center items-center text-white mt-10">
