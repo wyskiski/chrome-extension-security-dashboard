@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { searchForApiKeys } from '../helpers/searchForApiKeys';
 import { getCrxFile } from '../helpers/getCrxFile';
+import { searchCookieManipulation } from '../helpers/searchCookieManipulation';
 
 function ExtensionCard ({
   name = "",
@@ -20,25 +21,41 @@ function ExtensionCard ({
   }
 
   useEffect(() => {
-    if (extension.permissions) {
-      const permissions = extension.permissions
+    if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak")
+    {
+      console.log(extension.name)
 
-      setHasCookieAccess(permissions.includes("cookies"));
-      setHasDownloadAccess(permissions.includes("downloads"));
-    }
+      const crxFile = getCrxFile(extension.id)
+      console.log(crxFile)
 
-    async function checkApiKeys() {
-
-      if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
+      console.log("---")
   
-        const crxFile = getCrxFile(extension.id)
+      if (extension.permissions) {
+        const permissions = extension.permissions
   
-        const api = await searchForApiKeys(crxFile);
-        setHasApiKeys(api);
+        setHasCookieAccess(permissions.includes("cookies"));
+        setHasDownloadAccess(permissions.includes("downloads"));
       }
+  
+      async function checkApiKeys() {
+  
+        if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
+          // const api = await searchForApiKeys(crxFile);
+          // console.log("api keys: " + api)
+          // setHasApiKeys(api);
+        }
+      }
+  
+      async function checkCookieManipulation() {
+        if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
+          const matches = await searchCookieManipulation(crxFile);
+          console.log("matches: " + matches)
+        }
+      }
+  
+      checkApiKeys();
+      checkCookieManipulation();
     }
-
-    checkApiKeys();
   }, [extension])
 
   const detailsButton = () => {

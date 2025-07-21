@@ -110,7 +110,6 @@ function App() {
 
             if (extension.icons) {
               iconUrl = extension.icons[0].url;
-              console.log(iconUrl);
             }
 
             return (
