@@ -9,7 +9,7 @@ async function searchCookieManipulation(blob) {
       for (let file in zip.files) {
         const text = await zip.files[file].async("string");
 
-        const matches = text.match("chrome.cookies");
+        const matches = text.match(/chrome\.cookies\.\w+/g);
 
         if (matches !== null) {
           cookieMatches.push(matches);
