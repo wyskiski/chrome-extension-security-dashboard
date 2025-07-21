@@ -8,6 +8,8 @@ import { searchForApiKeys } from "./helpers/searchForApiKeys";
 import { getAllExtensions } from "./helpers/getAllExtensions";
 
 import ExtensionCard from "./components/ExtensionCard";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
   const [url, setUrl] = useState("");
@@ -61,25 +63,7 @@ function App() {
 
   return (
     <div className="flex flex-col">
-      <div id="header" className="flex flex-row justify-between px-10 py-5">
-        <div className="flex flex-row gap-3">
-          <img
-            alt="extensionIcon"
-            src="/assets/caticon.png"
-            className="size-6"
-          />
-          <p>
-            <b>Chrome Extension Checker</b>
-          </p>
-        </div>
-        <img
-          id="reloadIcon"
-          src="/assets/reload.png"
-          alt="reload"
-          className="size-6 invert cursor-pointer"
-          onClick={switchPage}
-        />
-      </div>
+      <Header />
 
       {showManualUpload ? (
         <div className="flex flex-col gap-10 px-15">
@@ -115,7 +99,6 @@ function App() {
         </div>
       ) : (
         <div className="flex flex-col gap-10 px-15">
-          <h1>Browser Extensions</h1>
           <div id="browser-extensions" className="flex flex-col gap-3">
             {browserExtensions.map((extension) => {
               let iconUrl = "";
@@ -138,12 +121,7 @@ function App() {
           </div>
         </div>
       )}
-
-      <div
-        id="footer"
-        className="bg-[#353535] py-2 flex justify-center items-center text-white mt-10">
-        <p>Built by Winona Wrigley. 2025.</p>
-      </div>
+      <Footer />
     </div>
   );
 }
