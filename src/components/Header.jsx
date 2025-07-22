@@ -1,4 +1,4 @@
-function Header() {
+function Header({ handler }) {
   return (
     <div id="header" className="flex flex-row justify-between px-10 py-5">
       <div className="flex flex-row gap-3">
@@ -9,10 +9,10 @@ function Header() {
       </div>
       <img
         id="reloadIcon"
-        src="/assets/reload.png"
-        alt="reload"
+        src="/assets/search.png"
+        alt="search"
         className="size-6 invert cursor-pointer"
-        onClick={switchPage}
+        onClick={handler}
       />
     </div>
   );

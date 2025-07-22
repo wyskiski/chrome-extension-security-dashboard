@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="flex flex-col">
-      <Header />
+      <Header handler={switchPage} />
 
       {showManualUpload ? (
         <div className="flex flex-col gap-10 px-15">
