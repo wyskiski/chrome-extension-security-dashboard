@@ -99,11 +99,11 @@ function ExtensionCard({
       ) : (
         <div
           id="body"
-          className="flex flex-row p-10 justify-center items-center gap-10">
+          className="flex flex-col justify-center items-center gap-5 p-5">
           <div
             id="extension-score"
-            className="flex flex-col justify-center items-center">
-            <p className="text-2xl font-bold">Risk: Low</p>
+            className="flex flex-col p-5 justify-center items-center">
+            <p className="text-3xl font-bold">Risk: Low</p>
             {enabled ? (
               <p>
                 Status: <span className="text-green-500">enabled</span>
@@ -113,19 +113,39 @@ function ExtensionCard({
                 Status: <span className="text-red-500">disabled</span>
               </p>
             )}
-          </div>
-
-          <div id="extension-access">
-            <p>
-              Download Access: {hasDownloadAccess ? <p>true</p> : <p>false</p>}
-            </p>
-            <p>Cookie Access: {hasCookieAccess ? <p>true</p> : <p>false</p>}</p>
-            <p>Expose API keys: {hasApiKeys ? <p>true</p> : <p>false</p>}</p>
-            <button
-              className="border-1 border-black p-2 rounded cursor-pointer"
+            {/* <button
+              className="mt-7 border-1 border-black p-2 rounded cursor-pointer"
               onClick={detailsButton}>
               View Details
-            </button>
+            </button> */}
+            <p
+              className="mt-7 underline cursor-pointer text-gray-500"
+              onClick={detailsButton}>
+              View Details
+            </p>
+          </div>
+
+          <div
+            id="extension-access"
+            className="flex flex-col justify-center items-center">
+            <h1 className="text-xl mb-2">
+              <b>Summary</b>
+            </h1>
+            {hasDownloadAccess ? (
+              <p>Download Access: true</p>
+            ) : (
+              <p>Download Access: false</p>
+            )}
+            {hasCookieAccess ? (
+              <p>Cookie Access: true</p>
+            ) : (
+              <p>Cookie Access: false</p>
+            )}
+            {hasApiKeys ? (
+              <p>Expose API keys: true</p>
+            ) : (
+              <p>Expose API keys: false</p>
+            )}
           </div>
         </div>
       )}

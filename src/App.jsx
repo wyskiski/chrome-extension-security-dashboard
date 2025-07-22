@@ -67,6 +67,7 @@ function App() {
 
       {showManualUpload ? (
         <div className="flex flex-col gap-10 px-15">
+          <h1 className="text-2xl font-bold">Upload Extension Link</h1>
           <div id="cookieInformation">
             <form
               onSubmit={handleSubmit}
@@ -98,26 +99,29 @@ function App() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-10 px-15">
-          <div id="browser-extensions" className="flex flex-col gap-3">
-            {browserExtensions.map((extension) => {
-              let iconUrl = "";
+        <div className="flex flex-col gap-10 px-10">
+          <h1 className="text-2xl font-bold ml-5">Browser Extensions</h1>
+          <div className="flex flex-col gap-10 px-5 max-h-100 overflow-y-auto">
+            <div id="browser-extensions" className="flex flex-col gap-3 ">
+              {browserExtensions.map((extension) => {
+                let iconUrl = "";
 
-              if (extension.icons) {
-                iconUrl = extension.icons[0].url;
-              }
+                if (extension.icons) {
+                  iconUrl = extension.icons[0].url;
+                }
 
-              return (
-                <ExtensionCard
-                  key={extension.id}
-                  extension={extension}
-                  name={extension.name}
-                  image={iconUrl}
-                  url={extension.homepageUrl}
-                  enabled={extension.enabled}
-                />
-              );
-            })}
+                return (
+                  <ExtensionCard
+                    key={extension.id}
+                    extension={extension}
+                    name={extension.name}
+                    image={iconUrl}
+                    url={extension.homepageUrl}
+                    enabled={extension.enabled}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
