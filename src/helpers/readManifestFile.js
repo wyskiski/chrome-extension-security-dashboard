@@ -8,7 +8,6 @@ function readManifestFile(blob) {
       .then((text) => {
         const manifest = JSON.parse(text);
         if (manifest.permissions && manifest.permissions.includes("cookies")) {
-          console.log("this changes da cookiessss");
           return true;
         } else {
           return false;

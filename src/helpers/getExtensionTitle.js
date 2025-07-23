@@ -7,7 +7,6 @@ function getExtensionTitle(crxFile) {
       .async("string")
       .then((text) => {
         const manifest = JSON.parse(text);
-        console.log(manifest);
         return manifest.action.default_title;
       });
   });

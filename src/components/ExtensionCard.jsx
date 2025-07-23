@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { searchForApiKeys } from "../helpers/searchForApiKeys";
 import { getCrxFile } from "../helpers/getCrxFile";
 import { searchCookieManipulation } from "../helpers/searchCookieManipulation";
@@ -15,19 +15,23 @@ function ExtensionCard({
   const [hasApiKeys, setHasApiKeys] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [cookieAccess, setCookieAccess] = useState([]);
+  const [dangerLevel, setDangerLevel] = useState("Low");
 
   const openHomepage = () => {
     window.open(url, "_blank");
   };
 
   useEffect(() => {
+    if (hasApiKeys) {
+      setDangerLevel("High");
+    } else if (hasCookieAccess && hasDownloadAccess) {
+      setDangerLevel("Medium");
+    }
+  }, [hasApiKeys, hasCookieAccess, hasDownloadAccess]);
+
+  useEffect(() => {
     if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
-      console.log(extension.name);
-
       const crxFile = getCrxFile(extension.id);
-      console.log(crxFile);
-
-      console.log("---");
 
       if (extension.permissions) {
         const permissions = extension.permissions;
@@ -103,7 +107,7 @@ function ExtensionCard({
           <div
             id="extension-score"
             className="flex flex-col p-5 justify-center items-center">
-            <p className="text-3xl font-bold">Risk: Low</p>
+            <p className="text-3xl font-bold">Risk: {dangerLevel}</p>
             {enabled ? (
               <p>
                 Status: <span className="text-green-500">enabled</span>

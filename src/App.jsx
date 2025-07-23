@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import "./App.css";
 
 import { getCrxFile } from "./helpers/getCrxFile";
@@ -10,6 +10,7 @@ import { getAllExtensions } from "./helpers/getAllExtensions";
 import ExtensionCard from "./components/ExtensionCard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import { getManifestDetails } from "./helpers/getManifestDetails";
 
 function App() {
   const [url, setUrl] = useState("");
@@ -17,12 +18,13 @@ function App() {
   const [manipulatesCookies, setManipulatesCookies] = useState(false);
   const [extensionName, setExtensionName] = useState("");
   const [showManualUpload, setShowManualUpload] = useState(false);
+  const [manualExtension, setManualExtension] = useState("");
 
   const [browserExtensions, setBrowserExtensions] = useState([]);
+  const [browserExtensionsSet, setBrowserExtensionsSet] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     getExtensionId();
   };
 
@@ -30,13 +32,14 @@ function App() {
     const splits = url.split("/");
 
     setExtensionId(splits[splits.length - 1]);
-    return splits[splits.length - 1];
   };
 
   useEffect(() => {
     if (!extensionId) return;
 
     async function getFile() {
+      console.log("hey");
+      console.log("extesnion: " + extensionId);
       const crxFile = await getCrxFile(extensionId);
 
       const cookieManipulation = await readManifestFile(crxFile);
@@ -45,6 +48,10 @@ function App() {
       const name = await getExtensionTitle(crxFile);
       setExtensionName(name);
 
+      const manifest = getManifestDetails(crxFile);
+      setManualExtension(manifest);
+      console.log(manifest);
+
       searchForApiKeys(crxFile);
     }
 
@@ -52,10 +59,18 @@ function App() {
   }, [extensionId]);
 
   useEffect(() => {
-    const extensions = getAllExtensions();
-    setBrowserExtensions(extensions);
-    console.log(extensions);
+    const loadExtensions = async () => {
+      const extensions = await getAllExtensions();
+      setBrowserExtensions(extensions);
+    };
+
+    loadExtensions();
   }, []);
+
+  useEffect(() => {
+    setBrowserExtensionsSet(true);
+    console.log("setting to truw");
+  }, [browserExtensions]);
 
   const switchPage = () => {
     setShowManualUpload(!showManualUpload);
@@ -87,15 +102,13 @@ function App() {
             </form>
           </div>
           <div id="extension-info">
-            <p>extension name: {extensionName}</p>
-            <p>exposed api keys: n/a</p>
-            {manipulatesCookies ? (
-              <p>manipulates cookies: yes </p>
-            ) : (
-              <p>manipulates cookies: no</p>
-            )}
-
-            {manipulatesCookies ? <p>safe? no</p> : <p>safe? yes</p>}
+            <ExtensionCard
+              extension={manualExtension}
+              name={extensionName}
+              image={manualExtension.iconUrl}
+              // url={extension.homepageUrl}
+              enabled={false}
+            />
           </div>
         </div>
       ) : (
@@ -103,24 +116,30 @@ function App() {
           <h1 className="text-2xl font-bold ml-5">Browser Extensions</h1>
           <div className="flex flex-col gap-10 px-5 max-h-100 overflow-y-auto">
             <div id="browser-extensions" className="flex flex-col gap-3 ">
-              {browserExtensions.map((extension) => {
-                let iconUrl = "";
+              {browserExtensionsSet ? (
+                <>
+                  {browserExtensions.map((extension) => {
+                    let iconUrl = "";
 
-                if (extension.icons) {
-                  iconUrl = extension.icons[0].url;
-                }
+                    if (extension.icons) {
+                      iconUrl = extension.icons[0].url;
+                    }
 
-                return (
-                  <ExtensionCard
-                    key={extension.id}
-                    extension={extension}
-                    name={extension.name}
-                    image={iconUrl}
-                    url={extension.homepageUrl}
-                    enabled={extension.enabled}
-                  />
-                );
-              })}
+                    return (
+                      <ExtensionCard
+                        key={extension.id}
+                        extension={extension}
+                        name={extension.name}
+                        image={iconUrl}
+                        url={extension.homepageUrl}
+                        enabled={extension.enabled}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p>loading</p>
+              )}
             </div>
           </div>
         </div>
