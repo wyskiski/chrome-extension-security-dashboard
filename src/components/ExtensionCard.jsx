@@ -16,10 +16,13 @@ function ExtensionCard({
   const [showDetails, setShowDetails] = useState(false);
   const [cookieAccess, setCookieAccess] = useState([]);
   const [dangerLevel, setDangerLevel] = useState("Low");
+  const [extensionEnabled, setExtensionEnabled] = useState(extension.enabled);
 
   const openHomepage = () => {
     window.open(url, "_blank");
   };
+
+  console.log(extension);
 
   useEffect(() => {
     if (hasApiKeys) {
@@ -68,6 +71,11 @@ function ExtensionCard({
     setShowDetails(!showDetails);
   };
 
+  const disableExtension = () => {
+    chrome.management.setEnabled(extension.id, !extensionEnabled);
+    setExtensionEnabled(!extensionEnabled);
+  };
+
   return (
     <div className="bg-white text-black rounded border-1 border-gray-100 drop-shadow-l">
       <div
@@ -82,7 +90,15 @@ function ExtensionCard({
           <p className="cursor-pointer">{name}</p>
         </div>
         <div id="extension-buttons">
-          {enabled ? <button>Disable</button> : <button>Enable</button>}
+          {extensionEnabled ? (
+            <button className="cursor-pointer" onClick={disableExtension}>
+              Disable
+            </button>
+          ) : (
+            <button className="cursor-pointer" onClick={disableExtension}>
+              Enable
+            </button>
+          )}
         </div>
       </div>
       {showDetails ? (
