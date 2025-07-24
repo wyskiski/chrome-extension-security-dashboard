@@ -1,32 +1,40 @@
 {
   "HIGH": {
-    "tabs": "Can access browser tab information and manipulate tabs",
-    "webRequest": "Can intercept and modify network requests, potentially used to monitor user activity",
-    "webRequestBlocking": "Can block or redirect requests, allowing full control over user's browsing",
-    "history": "Can read user's browsing history",
-    "cookies": "Can access and modify cookies, which may include authentication tokens",
-    "management": "Can retrieve information about other installed extensions",
-    "debugger": "Can attach to Chrome debugging protocol, offering deep access to browser internals",
-    "nativeMessaging": "Allows communication with native applications on the host machine",
-    "clipboardWrite": "Can write arbitrary content to the clipboard without user interaction",
-    "fileSystem": "Allows read/write access to a sandboxed portion of the local file system"
+    "chrome.tabs.query": "Can retrieve info about all open tabs, including URLs and titles",
+    "chrome.tabs.executeScript": "Can inject and run arbitrary code in web pages",
+    "chrome.tabs.remove": "Can close user tabs without their knowledge",
+    "chrome.webRequest.onBeforeRequest.addListener": "Can intercept all network traffic",
+    "chrome.webRequestBlocking": "Blocks and modifies outgoing network requests",
+    "chrome.history.search": "Can read entire browsing history",
+    "chrome.cookies.getAll": "Can access all cookies, including session tokens",
+    "chrome.management.getAll": "Can read all installed extensions, posing fingerprinting risks",
+    "chrome.debugger.attach": "Attaches to tab for full debugging control over page content",
+    "chrome.nativeMessaging.connect": "Communicates with local native apps, possibly bypassing browser sandbox",
+    "chrome.fileSystem.requestFileSystem": "Requests access to sandboxed local file system",
+    "chrome.clipboardWrite": "Can overwrite clipboard without user interaction"
   },
   "MEDIUM": {
-    "storage": "Stores and retrieves data locally or synced across Chrome instances",
-    "notifications": "Displays system notifications",
-    "bookmarks": "Can read, modify, add, and remove bookmarks",
-    "downloads": "Can initiate or manage downloads",
-    "geolocation": "Accesses device location data (with user permission)",
-    "identity": "Used for OAuth2 authentication and accessing user identity",
-    "contentSettings": "Can change settings like JavaScript or cookies on sites"
+    "chrome.downloads.download": "Can download arbitrary files onto user's machine",
+    "chrome.downloads.setShelfEnabled": "Can hide downloads UI, making downloads invisible to user",
+    "chrome.notifications.create": "Can show persistent system notifications",
+    "chrome.identity.getAuthToken": "Grants OAuth2 token access for user identity",
+    "chrome.geolocation.getCurrentPosition": "Accesses user location (with permission)",
+    "chrome.bookmarks.getTree": "Reads user bookmarks, useful for profiling",
+    "chrome.contentSettings.set": "Changes site behavior like JS, cookies, etc.",
+    "chrome.storage.sync.set": "Saves user-related data in synced cloud storage",
+    "chrome.webNavigation.onCommitted.addListener": "Monitors site navigation activity",
+    "chrome.tabs.captureVisibleTab": "Screenshots user's visible tab (with permission)"
   },
   "LOW": {
-    "alarms": "Used to schedule tasks at specific times",
-    "runtime": "Communicates with background scripts or other parts of the extension",
-    "contextMenus": "Adds custom options to the right-click context menu",
-    "i18n": "Handles internationalization for different locales",
-    "tabsQuery": "Can retrieve limited information about open tabs",
-    "browserAction": "Creates a button in the toolbar for the extension",
-    "storage.sync": "Stores synced extension data in the cloud"
+    "chrome.alarms.create": "Schedules future tasks in the background",
+    "chrome.runtime.sendMessage": "Sends messages between extension components",
+    "chrome.runtime.onInstalled.addListener": "Triggers when extension is installed or updated",
+    "chrome.contextMenus.create": "Adds entries to the right-click menu",
+    "chrome.i18n.getMessage": "Retrieves localized messages for UI display",
+    "chrome.browserAction.setIcon": "Changes extension icon in the toolbar",
+    "chrome.tabs.reload": "Reloads a tab (no access to content)",
+    "chrome.scripting.executeScript": "Can only inject scripts with activeTab permission",
+    "chrome.action.setBadgeText": "Sets badge text for toolbar icon",
+    "chrome.storage.local.set": "Stores data locally (less privacy concern than sync)"
   }
 }

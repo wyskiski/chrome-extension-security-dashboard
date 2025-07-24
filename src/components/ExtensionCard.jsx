@@ -2,6 +2,7 @@ import React, { use, useEffect, useState } from "react";
 import { searchForApiKeys } from "../helpers/searchForApiKeys";
 import { getCrxFile } from "../helpers/getCrxFile";
 import { searchCookieManipulation } from "../helpers/searchCookieManipulation";
+import riskData from "../data/risk.json";
 
 function ExtensionCard({
   name = "",
@@ -123,14 +124,39 @@ function ExtensionCard({
               //make link
               const split = match.split(".");
 
+              // Function to find risk level for an API method
+              const getRiskLevel = (method) => {
+                if (riskData.HIGH[method]) {
+                  return { level: "HIGH", description: riskData.HIGH[method] };
+                }
+                if (riskData.MEDIUM[method]) {
+                  return {
+                    level: "MEDIUM",
+                    description: riskData.MEDIUM[method],
+                  };
+                }
+                if (riskData.LOW[method]) {
+                  return { level: "LOW", description: riskData.LOW[method] };
+                }
+                return {
+                  level: "UNKNOWN",
+                  description: "Risk level not determined",
+                };
+              };
+
+              const riskInfo = getRiskLevel(match);
+
               return (
                 <tr>
                   <td
                     key={index}
-                    className="border-1 border-[#dddddd] text-left p-2">
+                    className="border-1 border-[#dddddd] text-left p-2"
+                    title={riskInfo.description}>
                     {match}
                   </td>
-                  <td className="border-1 border-[#dddddd] p-2 text-left">L</td>
+                  <td className="border-1 border-[#dddddd] p-2 text-left">
+                    {riskInfo.level}
+                  </td>
                   <td className="border-1 border-[#dddddd] p-2">
                     <a
                       href={`https://developer.chrome.com/docs/extensions/reference/api/${split[1]}#method-${split[2]}`}
