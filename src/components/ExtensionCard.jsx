@@ -113,11 +113,11 @@ function ExtensionCard({
 
           <table className="w-full table-auto border-collapse">
             <tr>
-              <th className="border-1 border-[#dddddd] text-left p-3">
+              <th className="border-1 border-[#dddddd] text-left p-2">
                 Method
               </th>
-              <th className="border-1 border-[#dddddd] text-left p-3">Risk</th>
-              <th className="border-1 border-[#dddddd] text-left p-3">Docs</th>
+              <th className="border-1 border-[#dddddd] text-left p-2">Risk</th>
+              <th className="border-1 border-[#dddddd] text-left p-2">Docs</th>
             </tr>
             {cookieAccess.map((match, index) => {
               //make link
@@ -127,11 +127,11 @@ function ExtensionCard({
                 <tr>
                   <td
                     key={index}
-                    className="border-1 border-[#dddddd] text-left p-3">
+                    className="border-1 border-[#dddddd] text-left p-2">
                     {match}
                   </td>
-                  <td className="border-1 border-[#dddddd] text-left p-3">L</td>
-                  <td className="border-1 border-[#dddddd] text-left p-3">
+                  <td className="border-1 border-[#dddddd] p-2 text-left">L</td>
+                  <td className="border-1 border-[#dddddd] p-2">
                     <a
                       href={`https://developer.chrome.com/docs/extensions/reference/api/${split[1]}#method-${split[2]}`}
                       target="_blank"

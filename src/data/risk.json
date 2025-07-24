@@ -1,0 +1,32 @@
+{
+  "HIGH": {
+    "tabs": "Can access browser tab information and manipulate tabs",
+    "webRequest": "Can intercept and modify network requests, potentially used to monitor user activity",
+    "webRequestBlocking": "Can block or redirect requests, allowing full control over user's browsing",
+    "history": "Can read user's browsing history",
+    "cookies": "Can access and modify cookies, which may include authentication tokens",
+    "management": "Can retrieve information about other installed extensions",
+    "debugger": "Can attach to Chrome debugging protocol, offering deep access to browser internals",
+    "nativeMessaging": "Allows communication with native applications on the host machine",
+    "clipboardWrite": "Can write arbitrary content to the clipboard without user interaction",
+    "fileSystem": "Allows read/write access to a sandboxed portion of the local file system"
+  },
+  "MEDIUM": {
+    "storage": "Stores and retrieves data locally or synced across Chrome instances",
+    "notifications": "Displays system notifications",
+    "bookmarks": "Can read, modify, add, and remove bookmarks",
+    "downloads": "Can initiate or manage downloads",
+    "geolocation": "Accesses device location data (with user permission)",
+    "identity": "Used for OAuth2 authentication and accessing user identity",
+    "contentSettings": "Can change settings like JavaScript or cookies on sites"
+  },
+  "LOW": {
+    "alarms": "Used to schedule tasks at specific times",
+    "runtime": "Communicates with background scripts or other parts of the extension",
+    "contextMenus": "Adds custom options to the right-click context menu",
+    "i18n": "Handles internationalization for different locales",
+    "tabsQuery": "Can retrieve limited information about open tabs",
+    "browserAction": "Creates a button in the toolbar for the extension",
+    "storage.sync": "Stores synced extension data in the cloud"
+  }
+}
