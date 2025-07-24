@@ -88,17 +88,49 @@ function ExtensionCard({
       {showDetails ? (
         <div
           id="body"
-          className="flex flex-row p-10 justify-center items-center gap-10">
-          <div className="flex flex-col">
-            {cookieAccess.map((match, index) => {
-              return <p key={index}>{match}</p>;
-            })}
-          </div>
-          <button
-            className="border-1 border-black p-2 rounded cursor-pointer"
+          className="flex flex-col p-10 justify-center items-center gap-10">
+          <p
+            className="cursor-pointer hover:underline text-gray-500"
             onClick={detailsButton}>
-            Hide Details
-          </button>
+            &lt;- back
+          </p>
+
+          <table className="w-full table-auto border-collapse">
+            <tr>
+              <th className="border-1 border-[#dddddd] text-left p-3">
+                Method
+              </th>
+              <th className="border-1 border-[#dddddd] text-left p-3">Risk</th>
+              <th className="border-1 border-[#dddddd] text-left p-3">Docs</th>
+            </tr>
+            {cookieAccess.map((match, index) => {
+              //make link
+              const split = match.split(".");
+
+              return (
+                <tr>
+                  <td
+                    key={index}
+                    className="border-1 border-[#dddddd] text-left p-3">
+                    {match}
+                  </td>
+                  <td className="border-1 border-[#dddddd] text-left p-3">L</td>
+                  <td className="border-1 border-[#dddddd] text-left p-3">
+                    <a
+                      href={`https://developer.chrome.com/docs/extensions/reference/api/${split[1]}#method-${split[2]}`}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      <img
+                        src="/assets/link.png"
+                        alt="documentation link"
+                        className="w-4 h-4 cursor-pointer hover:opacity-60"
+                      />
+                    </a>
+                  </td>
+                </tr>
+              );
+            })}
+          </table>
         </div>
       ) : (
         <div
