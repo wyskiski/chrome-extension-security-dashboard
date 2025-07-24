@@ -15,15 +15,43 @@ function ExtensionCard({
   const [hasDownloadAccess, setHasDownloadAccess] = useState(false);
   const [hasApiKeys, setHasApiKeys] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [cookieAccess, setCookieAccess] = useState([]);
+  const [chromeAccess, setChromeAccess] = useState([]);
   const [dangerLevel, setDangerLevel] = useState("Low");
   const [extensionEnabled, setExtensionEnabled] = useState(extension.enabled);
+  const [lowRisk, setLowRisk] = useState(0);
+  const [mediumRisk, setMediumRisk] = useState(0);
+  const [highRisk, setHighRisk] = useState(0);
 
   const openHomepage = () => {
     window.open(url, "_blank");
   };
 
-  console.log(extension);
+  useEffect(() => {
+    let low = 0;
+    let medium = 0;
+    let high = 0;
+
+    for (let match of chromeAccess) {
+      console.log(match);
+      if (riskData.HIGH[match]) {
+        high = high + 1;
+      } else if (riskData.MEDIUM[match]) {
+        medium = medium + 1;
+      } else if (riskData.LOW[match]) {
+        low = low + 1;
+      }
+    }
+
+    if (high > 0) {
+      setDangerLevel("High");
+    } else if (medium > 0) {
+      setDangerLevel("Medium");
+    }
+
+    setLowRisk(low);
+    setMediumRisk(medium);
+    setHighRisk(high);
+  }, [chromeAccess]);
 
   useEffect(() => {
     if (hasApiKeys) {
@@ -58,7 +86,7 @@ function ExtensionCard({
 
           if (matches !== undefined && matches !== null && matches.length > 0) {
             const matchesArray = matches.flat();
-            setCookieAccess(matchesArray);
+            setChromeAccess(matchesArray);
           }
         }
       }
@@ -120,7 +148,7 @@ function ExtensionCard({
               <th className="border-1 border-[#dddddd] text-left p-2">Risk</th>
               <th className="border-1 border-[#dddddd] text-left p-2">Docs</th>
             </tr>
-            {cookieAccess.map((match, index) => {
+            {chromeAccess.map((match, index) => {
               //make link
               const split = match.split(".");
 
@@ -181,7 +209,30 @@ function ExtensionCard({
           <div
             id="extension-score"
             className="flex flex-col p-5 justify-center items-center">
-            <p className="text-3xl font-bold">Risk: {dangerLevel}</p>
+            {dangerLevel === "High" && (
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-3xl">⚠️</p>
+                <p className="text-3xl font-bold">
+                  Risk: <span className="text-red-500">{dangerLevel}</span>
+                </p>
+              </div>
+            )}
+            {dangerLevel === "Medium" && (
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-3xl">⚡</p>
+                <p className="text-3xl font-bold">
+                  Risk: <span className="text-yellow-500">{dangerLevel}</span>
+                </p>
+              </div>
+            )}
+            {dangerLevel === "Low" && (
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-3xl">✅</p>
+                <p className="text-3xl font-bold">
+                  Risk: <span className="text-green-500">{dangerLevel}</span>
+                </p>
+              </div>
+            )}
             {enabled ? (
               <p>
                 Status: <span className="text-green-500">enabled</span>
@@ -228,19 +279,19 @@ function ExtensionCard({
               <div className="flex flex-col gap-2 justify-center items-center">
                 <p>Low</p>
                 <div className="w-10 h-10 bg-green-300 flex justify-center items-center rounded">
-                  5
+                  {lowRisk}
                 </div>
               </div>
               <div className="flex flex-col gap-2 justify-center items-center">
                 <p>Medium</p>
                 <div className="w-10 h-10 bg-yellow-300 flex justify-center items-center rounded">
-                  5
+                  {mediumRisk}
                 </div>
               </div>
               <div className="flex flex-col gap-2 justify-center items-center">
                 <p>High</p>
                 <div className="w-10 h-10 bg-red-300 flex justify-center items-center rounded">
-                  5
+                  {highRisk}
                 </div>
               </div>
             </div>
