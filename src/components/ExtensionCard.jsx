@@ -152,7 +152,7 @@ function ExtensionCard({
                     key={index}
                     className="border-1 border-[#dddddd] text-left p-2"
                     title={riskInfo.description}>
-                    {match}
+                    {split[1]}.{split[2]}
                   </td>
                   <td className="border-1 border-[#dddddd] p-2 text-left">
                     {riskInfo.level}
@@ -207,9 +207,9 @@ function ExtensionCard({
             id="extension-access"
             className="flex flex-col justify-center items-center">
             <h1 className="text-xl mb-2">
-              <b>Summary</b>
+              <b>Risk Summary</b>
             </h1>
-            {hasDownloadAccess ? (
+            {/* {hasDownloadAccess ? (
               <p>Download Access: true</p>
             ) : (
               <p>Download Access: false</p>
@@ -223,7 +223,27 @@ function ExtensionCard({
               <p>Expose API keys: true</p>
             ) : (
               <p>Expose API keys: false</p>
-            )}
+            )} */}
+            <div className="flex flex-row gap-5">
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p>Low</p>
+                <div className="w-10 h-10 bg-green-300 flex justify-center items-center rounded">
+                  5
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p>Medium</p>
+                <div className="w-10 h-10 bg-yellow-300 flex justify-center items-center rounded">
+                  5
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 justify-center items-center">
+                <p>High</p>
+                <div className="w-10 h-10 bg-red-300 flex justify-center items-center rounded">
+                  5
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
