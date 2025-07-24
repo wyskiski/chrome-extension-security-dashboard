@@ -72,8 +72,8 @@ function App() {
     console.log("setting to truw");
   }, [browserExtensions]);
 
-  const switchPage = () => {
-    setShowManualUpload(!showManualUpload);
+  const switchPage = (value) => {
+    setShowManualUpload(value);
   };
 
   return (
