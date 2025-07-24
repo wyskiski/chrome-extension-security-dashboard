@@ -19,44 +19,59 @@ function App() {
   const [extensionName, setExtensionName] = useState("");
   const [showManualUpload, setShowManualUpload] = useState(false);
   const [manualExtension, setManualExtension] = useState("");
+  const [gotExtensionDetails, setExtensionDetails] = useState(false);
 
   const [browserExtensions, setBrowserExtensions] = useState([]);
   const [browserExtensionsSet, setBrowserExtensionsSet] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     getExtensionId();
   };
 
-  const getExtensionId = () => {
+  const getExtensionId = async () => {
     const splits = url.split("/");
 
     setExtensionId(splits[splits.length - 1]);
+
+    console.log(splits[splits.length - 1]);
+
+    const crxFile = await getCrxFile(splits[splits.length - 1]);
+    const manifest = getManifestDetails(crxFile);
+
+    const name = await getExtensionTitle(crxFile);
+    setExtensionName(name);
+
+    console.log(manifest);
+
+    const extension = {
+      id: splits[splits.length - 1],
+      permissions: manifest.permissions,
+      enabled: manifest.enabled,
+    };
+    setManualExtension(extension);
   };
 
   useEffect(() => {
     if (!extensionId) return;
 
-    async function getFile() {
-      console.log("hey");
-      console.log("extesnion: " + extensionId);
-      const crxFile = await getCrxFile(extensionId);
+    setExtensionDetails(true);
 
-      const cookieManipulation = await readManifestFile(crxFile);
-      setManipulatesCookies(cookieManipulation);
+    // async function getFile() {
+    //   const crxFile = await getCrxFile(extensionId);
 
-      const name = await getExtensionTitle(crxFile);
-      setExtensionName(name);
+    // const cookieManipulation = await readManifestFile(crxFile);
+    // setManipulatesCookies(cookieManipulation);
 
-      const manifest = getManifestDetails(crxFile);
-      setManualExtension(manifest);
-      console.log(manifest);
+    // const manifest = getManifestDetails(crxFile);
+    // setManualExtension(manifest);
+    // console.log(manifest);
 
-      searchForApiKeys(crxFile);
-    }
+    // searchForApiKeys(crxFile);
+    // }
 
-    getFile();
-  }, [extensionId]);
+    // getFile();
+  }, [manualExtension]);
 
   useEffect(() => {
     const loadExtensions = async () => {
@@ -102,13 +117,18 @@ function App() {
             </form>
           </div>
           <div id="extension-info">
-            <ExtensionCard
-              extension={manualExtension}
-              name={extensionName}
-              image={manualExtension.iconUrl}
-              // url={extension.homepageUrl}
-              enabled={false}
-            />
+            {gotExtensionDetails ? (
+              <ExtensionCard
+                extension={manualExtension}
+                name={extensionName}
+                // image={manualExtension.iconUrl}
+                // url={extension.homepageUrl}
+                enabled={manualExtension.enabled}
+                manual={true}
+              />
+            ) : (
+              <p>enter a url</p>
+            )}
           </div>
         </div>
       ) : (

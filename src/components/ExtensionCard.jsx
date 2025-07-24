@@ -9,6 +9,7 @@ function ExtensionCard({
   image = "",
   url = "",
   enabled = false,
+  manual = false,
   extension,
 }) {
   const [hasCookieAccess, setHasCookieAccess] = useState(false);
@@ -107,29 +108,33 @@ function ExtensionCard({
 
   return (
     <div className="bg-white text-black rounded border-1 border-gray-100 drop-shadow-l">
-      <div
-        id="extension-details"
-        className="flex flex-row justify-between px-5 py-2">
-        <div className="flex flex-row gap-3" onClick={openHomepage}>
-          <img
-            src={image}
-            alt={`${name} logo`}
-            className="size-4 cursor-pointer"
-          />
-          <p className="cursor-pointer">{name}</p>
+      {!manual && (
+        <div
+          id="extension-details"
+          className="flex flex-row justify-between px-5 py-2">
+          <div className="flex flex-row gap-3" onClick={openHomepage}>
+            <img
+              src={image}
+              alt={`${name} logo`}
+              className="size-4 cursor-pointer"
+            />
+
+            <p className="cursor-pointer">{name}</p>
+          </div>
+          <div id="extension-buttons">
+            {extensionEnabled ? (
+              <button className="cursor-pointer" onClick={disableExtension}>
+                Disable
+              </button>
+            ) : (
+              <button className="cursor-pointer" onClick={disableExtension}>
+                Enable
+              </button>
+            )}
+          </div>
+          )
         </div>
-        <div id="extension-buttons">
-          {extensionEnabled ? (
-            <button className="cursor-pointer" onClick={disableExtension}>
-              Disable
-            </button>
-          ) : (
-            <button className="cursor-pointer" onClick={disableExtension}>
-              Enable
-            </button>
-          )}
-        </div>
-      </div>
+      )}
       {showDetails ? (
         <div
           id="body"
@@ -233,15 +238,20 @@ function ExtensionCard({
                 </p>
               </div>
             )}
-            {enabled ? (
-              <p>
-                Status: <span className="text-green-500">enabled</span>
-              </p>
-            ) : (
-              <p>
-                Status: <span className="text-red-500">disabled</span>
-              </p>
+            {!manual && (
+              <>
+                {enabled ? (
+                  <p>
+                    Status: <span className="text-green-500">enabled</span>
+                  </p>
+                ) : (
+                  <p>
+                    Status: <span className="text-red-500">disabled</span>
+                  </p>
+                )}
+              </>
             )}
+
             {/* <button
               className="mt-7 border-1 border-black p-2 rounded cursor-pointer"
               onClick={detailsButton}>
