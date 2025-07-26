@@ -9,7 +9,9 @@ The outcome of the project is a chrome extension which automatically scans and c
 ## How To Use
 
 1. Download the github code
-2. Open chrome://extensions/
-3. Turn "Developer Mode" on in the top right
-4. Select "Load Unpacked" in the top left
-5. Choose the build folder within the extension files
+2. Run "npm i"
+3. Run "npm build"
+4. Open chrome://extensions/
+5. Turn "Developer Mode" on in the top right
+6. Select "Load Unpacked" in the top left
+7. Choose the build folder within the extension files
