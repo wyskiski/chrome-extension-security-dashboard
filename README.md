@@ -1,12 +1,17 @@
-# React + Vite
+# Project Summary
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is about determining the security and privacy of chrome extensions using React, Tailwind, and Javascript. A chrome extension is archived code in the format of a “crx” file. They are stored within the browser with the ability to observe browser events and modify the web. The extension has a manifest.json file that contains the allowed permissions of the extension, which are allowed when the extension is installed.
 
-Currently, two official plugins are available:
+The project aimed to determine if the extension were following the adhering to the CIA triad of confidentiality, integrity, and authenticity. Also if it follows the principle of least privilege as well as privacy and data governance. A chrome extension has the ability to potentially read and write data on all browser sites. Some extensions need access to these permissions to be able to function, but others may be using these permissions with a malicious intent.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The outcome of the project is a chrome extension which automatically scans and checks the risk level of extensions installed in your chrome browser. It investigates all of the permissions the extension has access to. The user can click to view additional details on the chrome extension and choose to disable the extension in the browser. Clicking on the extensions name / icon will also take the user to its home page. It also has a manual feature, allowing the user to upload a link to a chrome extension and determine its risk level.
 
-## Expanding the ESLint configuration
+## How To Use
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Download the github code
+2. Run "npm i"
+3. Run "npm build"
+4. Open chrome://extensions/
+5. Turn "Developer Mode" on in the top right
+6. Select "Load Unpacked" in the top left
+7. Choose the build folder within the extension files
