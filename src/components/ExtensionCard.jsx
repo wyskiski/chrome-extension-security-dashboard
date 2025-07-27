@@ -22,6 +22,7 @@ function ExtensionCard({
   const [lowRisk, setLowRisk] = useState(0);
   const [mediumRisk, setMediumRisk] = useState(0);
   const [highRisk, setHighRisk] = useState(0);
+  const [permissions, setPermissions] = useState([]);
 
   const openHomepage = () => {
     window.open(url, "_blank");
@@ -33,7 +34,6 @@ function ExtensionCard({
     let high = 0;
 
     for (let match of chromeAccess) {
-      console.log(match);
       if (riskData.HIGH[match]) {
         high = high + 1;
       } else if (riskData.MEDIUM[match]) {
@@ -49,18 +49,38 @@ function ExtensionCard({
       setDangerLevel("Medium");
     }
 
+    const unusedPermissions = permissions.filter((permission) => {
+      let isUsed = chromeAccess.some((match) => {
+        const split = match.split(".");
+        return split[1] === permission;
+      });
+      return !isUsed;
+    });
+
+    if (unusedPermissions.length > 0) {
+      if (dangerLevel === "Low") {
+        setDangerLevel("Medium");
+      } else if (dangerLevel === "Medium") {
+        setDangerLevel("High");
+      }
+    }
+
+    if (hasApiKeys) {
+      setDangerLevel("High");
+    }
+
     setLowRisk(low);
     setMediumRisk(medium);
     setHighRisk(high);
-  }, [chromeAccess]);
+  }, [chromeAccess, hasApiKeys, permissions]);
 
-  useEffect(() => {
-    if (hasApiKeys) {
-      setDangerLevel("High");
-    } else if (hasCookieAccess && hasDownloadAccess) {
-      setDangerLevel("Medium");
-    }
-  }, [hasApiKeys, hasCookieAccess, hasDownloadAccess]);
+  // useEffect(() => {
+  //   if (hasApiKeys) {
+  //     setDangerLevel("High");
+  //   } else if (hasCookieAccess && hasDownloadAccess) {
+  //     setDangerLevel("Medium");
+  //   }
+  // }, [hasApiKeys, hasCookieAccess, hasDownloadAccess]);
 
   useEffect(() => {
     if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
@@ -69,15 +89,16 @@ function ExtensionCard({
       if (extension.permissions) {
         const permissions = extension.permissions;
 
+        setPermissions(permissions);
         setHasCookieAccess(permissions.includes("cookies"));
         setHasDownloadAccess(permissions.includes("downloads"));
       }
 
       async function checkApiKeys() {
         if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
-          // const api = await searchForApiKeys(crxFile);
+          const api = await searchForApiKeys(crxFile);
           // console.log("api keys: " + api)
-          // setHasApiKeys(api);
+          setHasApiKeys(api);
         }
       }
 
@@ -132,7 +153,6 @@ function ExtensionCard({
               </button>
             )}
           </div>
-          )
         </div>
       )}
       {showDetails ? (
@@ -143,6 +163,25 @@ function ExtensionCard({
             className="cursor-pointer hover:underline text-gray-500"
             onClick={detailsButton}>
             &lt;- back
+          </p>
+
+          <p>
+            Unused permissions:
+            {permissions
+              .filter((permission) => {
+                let isUsed = chromeAccess.some((match) => {
+                  const split = match.split(".");
+                  return split[1] === permission;
+                });
+                return !isUsed;
+              })
+              .map((permission, index) => {
+                return <p>{permission}</p>;
+              })}
+          </p>
+
+          <p>
+            Exposed API keys? {hasApiKeys ? <span>Yes</span> : <span>No</span>}
           </p>
 
           <table className="w-full table-auto border-collapse">
@@ -179,31 +218,33 @@ function ExtensionCard({
 
               const riskInfo = getRiskLevel(match);
 
-              return (
-                <tr>
-                  <td
-                    key={index}
-                    className="border-1 border-[#dddddd] text-left p-2"
-                    title={riskInfo.description}>
-                    {split[1]}.{split[2]}
-                  </td>
-                  <td className="border-1 border-[#dddddd] p-2 text-left">
-                    {riskInfo.level}
-                  </td>
-                  <td className="border-1 border-[#dddddd] p-2">
-                    <a
-                      href={`https://developer.chrome.com/docs/extensions/reference/api/${split[1]}#method-${split[2]}`}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      <img
-                        src="/assets/link.png"
-                        alt="documentation link"
-                        className="w-4 h-4 cursor-pointer hover:opacity-60"
-                      />
-                    </a>
-                  </td>
-                </tr>
-              );
+              if (riskInfo.level !== "UNKNOWN") {
+                return (
+                  <tr>
+                    <td
+                      key={index}
+                      className="border-1 border-[#dddddd] text-left p-2"
+                      title={riskInfo.description}>
+                      {split[1]}.{split[2]}
+                    </td>
+                    <td className="border-1 border-[#dddddd] p-2 text-left">
+                      {riskInfo.level}
+                    </td>
+                    <td className="border-1 border-[#dddddd] p-2">
+                      <a
+                        href={`https://developer.chrome.com/docs/extensions/reference/api/${split[1]}#method-${split[2]}`}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <img
+                          src="/assets/link.png"
+                          alt="documentation link"
+                          className="w-4 h-4 cursor-pointer hover:opacity-60"
+                        />
+                      </a>
+                    </td>
+                  </tr>
+                );
+              }
             })}
           </table>
         </div>
