@@ -1,10 +1,8 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import { getCrxFile } from "./helpers/getCrxFile";
-import { readManifestFile } from "./helpers/readManifestFile";
 import { getExtensionTitle } from "./helpers/getExtensionTitle";
-import { searchForApiKeys } from "./helpers/searchForApiKeys";
 import { getAllExtensions } from "./helpers/getAllExtensions";
 
 import ExtensionCard from "./components/ExtensionCard";
@@ -15,7 +13,6 @@ import { getManifestDetails } from "./helpers/getManifestDetails";
 function App() {
   const [url, setUrl] = useState("");
   const [extensionId, setExtensionId] = useState("");
-  const [manipulatesCookies, setManipulatesCookies] = useState(false);
   const [extensionName, setExtensionName] = useState("");
   const [showManualUpload, setShowManualUpload] = useState(false);
   const [manualExtension, setManualExtension] = useState("");
@@ -34,15 +31,11 @@ function App() {
 
     setExtensionId(splits[splits.length - 1]);
 
-    console.log(splits[splits.length - 1]);
-
     const crxFile = await getCrxFile(splits[splits.length - 1]);
     const manifest = getManifestDetails(crxFile);
 
     const name = await getExtensionTitle(crxFile);
     setExtensionName(name);
-
-    console.log(manifest);
 
     const extension = {
       id: splits[splits.length - 1],
@@ -56,21 +49,6 @@ function App() {
     if (!extensionId) return;
 
     setExtensionDetails(true);
-
-    // async function getFile() {
-    //   const crxFile = await getCrxFile(extensionId);
-
-    // const cookieManipulation = await readManifestFile(crxFile);
-    // setManipulatesCookies(cookieManipulation);
-
-    // const manifest = getManifestDetails(crxFile);
-    // setManualExtension(manifest);
-    // console.log(manifest);
-
-    // searchForApiKeys(crxFile);
-    // }
-
-    // getFile();
   }, [manualExtension]);
 
   useEffect(() => {
@@ -84,7 +62,6 @@ function App() {
 
   useEffect(() => {
     setBrowserExtensionsSet(true);
-    console.log("setting to truw");
   }, [browserExtensions]);
 
   const switchPage = (value) => {
