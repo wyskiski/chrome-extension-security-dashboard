@@ -12,8 +12,6 @@ function ExtensionCard({
   manual = false,
   extension,
 }) {
-  const [hasCookieAccess, setHasCookieAccess] = useState(false);
-  const [hasDownloadAccess, setHasDownloadAccess] = useState(false);
   const [hasApiKeys, setHasApiKeys] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [chromeAccess, setChromeAccess] = useState([]);
@@ -74,14 +72,6 @@ function ExtensionCard({
     setHighRisk(high);
   }, [chromeAccess, hasApiKeys, permissions]);
 
-  // useEffect(() => {
-  //   if (hasApiKeys) {
-  //     setDangerLevel("High");
-  //   } else if (hasCookieAccess && hasDownloadAccess) {
-  //     setDangerLevel("Medium");
-  //   }
-  // }, [hasApiKeys, hasCookieAccess, hasDownloadAccess]);
-
   useEffect(() => {
     if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
       const crxFile = getCrxFile(extension.id);
@@ -90,14 +80,11 @@ function ExtensionCard({
         const permissions = extension.permissions;
 
         setPermissions(permissions);
-        setHasCookieAccess(permissions.includes("cookies"));
-        setHasDownloadAccess(permissions.includes("downloads"));
       }
 
       async function checkApiKeys() {
         if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
           const api = await searchForApiKeys(crxFile);
-          // console.log("api keys: " + api)
           setHasApiKeys(api);
         }
       }
@@ -193,10 +180,8 @@ function ExtensionCard({
               <th className="border-1 border-[#dddddd] text-left p-2">Docs</th>
             </tr>
             {chromeAccess.map((match, index) => {
-              //make link
               const split = match.split(".");
 
-              // Function to find risk level for an API method
               const getRiskLevel = (method) => {
                 if (riskData.HIGH[method]) {
                   return { level: "HIGH", description: riskData.HIGH[method] };
@@ -293,11 +278,6 @@ function ExtensionCard({
               </>
             )}
 
-            {/* <button
-              className="mt-7 border-1 border-black p-2 rounded cursor-pointer"
-              onClick={detailsButton}>
-              View Details
-            </button> */}
             <p
               className="mt-7 underline cursor-pointer text-gray-500"
               onClick={detailsButton}>
@@ -311,21 +291,6 @@ function ExtensionCard({
             <h1 className="text-xl mb-2">
               <b>Risk Summary</b>
             </h1>
-            {/* {hasDownloadAccess ? (
-              <p>Download Access: true</p>
-            ) : (
-              <p>Download Access: false</p>
-            )}
-            {hasCookieAccess ? (
-              <p>Cookie Access: true</p>
-            ) : (
-              <p>Cookie Access: false</p>
-            )}
-            {hasApiKeys ? (
-              <p>Expose API keys: true</p>
-            ) : (
-              <p>Expose API keys: false</p>
-            )} */}
             <div className="flex flex-row gap-5">
               <div className="flex flex-col gap-2 justify-center items-center">
                 <p>Low</p>
