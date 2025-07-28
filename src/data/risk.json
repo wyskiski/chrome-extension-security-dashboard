@@ -9,7 +9,13 @@
     "chrome.cookies.remove": "Deletes a cookie.",
     "chrome.debugger.attach": "Attaches debugger to target.",
     "chrome.scripting.executeScript": "Injects a script into target content and runs the script.",
-    "chrome.downloads.setUiOptions": "Can hide downloads UI, making downloads invisible to user"
+    "chrome.downloads.setUiOptions": "Can hide downloads UI, making downloads invisible to user",
+    "chrome.downloads.erase": "Erases matching item from history, but doesn't delete the file.",
+    "chrome.downloads.open": "Opens the downloaded file when complete.",
+    "chrome.downloads.removeFile": "Removes the downloaded file if it exists and is complete.",
+    "chrome.downloads.resume": "Resumes a paused download.",
+    "chrome.downloads.onDeterminingFilename": "Extension has the opportunity to override the targets filename.",
+    "chrome.identity.getProfileUserInfo": "Retrieves the email address and obfuscated gaia id of the user signed into a profile."
   },
   "MEDIUM": {
     "chrome.tabs.remove": "Can close one or more tabs without user knowing.",
