@@ -1,11 +1,11 @@
 {
-  "name": "Cookie Checker Chrome Extension",
-  "description": "View and edit cookies.",
+  "name": "Chrome Extension Checker",
+  "description": "Get a risk analysis of the extensions installed in your browser.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
-    "default_title": "Cookie Checker Chrome Extension",
+    "default_title": "Chrome Extension Cgecker",
     "default_icon": "cat icon.png"
   },
   "permissions": ["cookies","tabs","activeTab",

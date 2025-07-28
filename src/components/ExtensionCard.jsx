@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from "react";
 import { searchForApiKeys } from "../helpers/searchForApiKeys";
 import { getCrxFile } from "../helpers/getCrxFile";
-import { searchCookieManipulation } from "../helpers/searchCookieManipulation";
+import { searchPermissionUse } from "../helpers/searchPermissionUse";
 import riskData from "../data/risk.json";
 
 function ExtensionCard({
@@ -89,9 +89,9 @@ function ExtensionCard({
         }
       }
 
-      async function checkCookieManipulation() {
+      async function checkPermissionUse() {
         if (extension.id !== "enkjmnlmfadhmclefjcmfoelhjahnhak") {
-          const matches = await searchCookieManipulation(crxFile);
+          const matches = await searchPermissionUse(crxFile);
 
           if (matches !== undefined && matches !== null && matches.length > 0) {
             const matchesArray = matches.flat();
@@ -101,7 +101,7 @@ function ExtensionCard({
       }
 
       checkApiKeys();
-      checkCookieManipulation();
+      checkPermissionUse();
     }
   }, [extension]);
 

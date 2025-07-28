@@ -1,40 +1,35 @@
 {
   "HIGH": {
-    "chrome.tabs.query": "Can retrieve info about all open tabs, including URLs and titles",
-    "chrome.tabs.executeScript": "Can inject and run arbitrary code in web pages",
-    "chrome.tabs.remove": "Can close user tabs without their knowledge",
-    "chrome.webRequest.onBeforeRequest.addListener": "Can intercept all network traffic",
-    "chrome.webRequestBlocking": "Blocks and modifies outgoing network requests",
-    "chrome.history.search": "Can read entire browsing history",
-    "chrome.cookies.getAll": "Can access all cookies, including session tokens",
-    "chrome.management.getAll": "Can read all installed extensions, posing fingerprinting risks",
-    "chrome.debugger.attach": "Attaches to tab for full debugging control over page content",
-    "chrome.nativeMessaging.connect": "Communicates with local native apps, possibly bypassing browser sandbox",
-    "chrome.fileSystem.requestFileSystem": "Requests access to sandboxed local file system",
-    "chrome.clipboardWrite": "Can overwrite clipboard without user interaction"
+    "chrome.tabs.query": "Return all info about specific tabs.",
+    "chrome.cookies.getAll": "Can retrieve all cookies, including all details about them.",
+    "chrome.cookies.get": "Can retrieve all details about a specific cookie.",
+    "chrome.cookies.getAllCookieStores": "Lists all existing cookie stores.",
+    "chrome.cookies.getPartitionKey": "Gets the partition key which can be used to track user.", 
+    "chrome.cookies.set": "Can set cookies which could track users.",  
+    "chrome.cookies.remove": "Deletes a cookie.",
+    "chrome.debugger.attach": "Attaches debugger to target.",
+    "chrome.scripting.executeScript": "Injects a script into target content and runs the script.",
+    "chrome.downloads.setUiOptions": "Can hide downloads UI, making downloads invisible to user"
   },
   "MEDIUM": {
-    "chrome.downloads.download": "Can download arbitrary files onto user's machine",
-    "chrome.downloads.setShelfEnabled": "Can hide downloads UI, making downloads invisible to user",
-    "chrome.notifications.create": "Can show persistent system notifications",
-    "chrome.identity.getAuthToken": "Grants OAuth2 token access for user identity",
-    "chrome.geolocation.getCurrentPosition": "Accesses user location (with permission)",
-    "chrome.bookmarks.getTree": "Reads user bookmarks, useful for profiling",
-    "chrome.contentSettings.set": "Changes site behavior like JS, cookies, etc.",
-    "chrome.storage.sync.set": "Saves user-related data in synced cloud storage",
-    "chrome.webNavigation.onCommitted.addListener": "Monitors site navigation activity",
-    "chrome.tabs.captureVisibleTab": "Screenshots user's visible tab (with permission)"
+    "chrome.tabs.remove": "Can close one or more tabs without user knowing.",
+    "chrome.downloads.download": "Can download arbitrary files onto user's machine", 
+    "chrome.notifications.create": "Creates and displays notifications.",
+    "chrome.identity.getAuthToken": "Returns the OAuth2 token for a user.",
+    "chrome.bookmarks.getTree": "Retrives entire bookmarks hierarchy.",
+    "chrome.webNavigation.onCommitted.addListener": "Fires when a navigation happens.",
+    "chrome.tabs.captureVisibleTab": "Screenshots the visible area of the current tab. Can capture sensitive data.",
+    "chrome.management.getAll": "Can read all installed extensions and apps.",
+    "chrome.alarms.create": "Creates an alarm near the time specified.",
+    "chrome.runtime.sendMessage": "Sends messahes to event listeners in the extension."
   },
   "LOW": {
-    "chrome.alarms.create": "Schedules future tasks in the background",
-    "chrome.runtime.sendMessage": "Sends messages between extension components",
-    "chrome.runtime.onInstalled.addListener": "Triggers when extension is installed or updated",
-    "chrome.contextMenus.create": "Adds entries to the right-click menu",
-    "chrome.i18n.getMessage": "Retrieves localized messages for UI display",
-    "chrome.browserAction.setIcon": "Changes extension icon in the toolbar",
-    "chrome.tabs.reload": "Reloads a tab (no access to content)",
-    "chrome.scripting.executeScript": "Can only inject scripts with activeTab permission",
-    "chrome.action.setBadgeText": "Sets badge text for toolbar icon",
-    "chrome.storage.local.set": "Stores data locally (less privacy concern than sync)"
+    "chrome.runtime.onInstalled.addListener": "Fires when the extension or Chrome is updated.",
+    "chrome.contextMenus.create": "Creates a new context menu item.",
+    "chrome.i18n.getMessage": "Retrieves localized messages from the browser and displays it as a string.",
+    "chrome.tabs.reload": "Reloads a tab",
+    "chrome.action.setBadgeText": "Sets badge text for action above the icon.",
+    "chrome.storage.local.set": "Stores data locally",
+    "chrome.history.search": "Searches the history for the last visit time of each page matching the query."
   }
 }

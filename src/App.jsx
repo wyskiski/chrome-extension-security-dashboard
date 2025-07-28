@@ -98,8 +98,6 @@ function App() {
               <ExtensionCard
                 extension={manualExtension}
                 name={extensionName}
-                // image={manualExtension.iconUrl}
-                // url={extension.homepageUrl}
                 enabled={manualExtension.enabled}
                 manual={true}
               />

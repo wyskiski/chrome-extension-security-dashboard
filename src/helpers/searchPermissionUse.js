@@ -1,9 +1,9 @@
 import JSZip from "jszip";
 
-async function searchCookieManipulation(blob) {
+async function searchPermissionUse(blob) {
   try {
     const zip = await JSZip.loadAsync(blob);
-    let cookieMatches = new Set();
+    let permissionMatches = new Set();
 
     try {
       for (let file in zip.files) {
@@ -13,7 +13,7 @@ async function searchCookieManipulation(blob) {
         if (matches !== null) {
           const matchesSplit = matches.flat();
           matchesSplit.forEach((match) => {
-            cookieMatches.add(match);
+            permissionMatches.add(match);
           });
         }
       }
@@ -21,10 +21,10 @@ async function searchCookieManipulation(blob) {
       console.log(error);
     }
 
-    return Array.from(cookieMatches);
+    return Array.from(permissionMatches);
   } catch (error) {
     console.log(error);
   }
 }
 
-export { searchCookieManipulation };
+export { searchPermissionUse };
